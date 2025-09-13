@@ -78,7 +78,7 @@ header nav {
 
 header nav a {
   text-decoration: none;
-  color: #821b1b;
+  color: #333;
   font-size: 12px;
   transition: color 0.3s ease;
   text-align: center;
