@@ -1197,8 +1197,25 @@ main {
 .sub-brands-section h2 span {
   color: #004aad;
 }
+/* Slider container */
+.slider-container {
+  width: 100%;
+  height: calc(100vh - 80px); /* full viewport minus header */
+  overflow: hidden;
+}
 
-/* Slider Container */
+.mySwiper {
+  width: 100%;
+  height: 100%;
+}
+
+.mySwiper img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* cover container without distortion */
+}
+
+/* Additional styling for scrollable logo slider if used */
 .slider {
   overflow: hidden;
   position: relative;
@@ -1207,13 +1224,13 @@ main {
 
 .slide-track {
   display: flex;
-  width: calc(220px * 16); /* slide width * number of slides */
+  width: calc(220px * 16); /* adjust if needed */
   animation: scroll 25s linear infinite;
 }
 
 .slide {
   width: 100px;
-  height: 100px;   /* fixed height for all logos */
+  height: 100px;
   flex-shrink: 0;
   padding: 0 20px;
   display: flex;
@@ -1224,16 +1241,14 @@ main {
 .slide img {
   width: 100%;
   height: 100%;
-  object-fit: contain; /* keeps aspect ratio inside box */
+  object-fit: contain;
 }
 
-/* Infinite Scroll Animation */
 @keyframes scroll {
   0%   { transform: translateX(0); }
   100% { transform: translateX(-50%); }
 }
 
-/* Optional: Pause on hover */
 .slider:hover .slide-track {
   animation-play-state: paused;
 }
