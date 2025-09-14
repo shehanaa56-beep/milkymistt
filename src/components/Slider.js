@@ -4,10 +4,9 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import { Navigation, Pagination, Autoplay } from "swiper/modules";
-
 export default function Slider() {
   return (
-    <div className="w-full relative">
+    <div className="w-full relative" style={{ height: 'calc(100vh - 80px)' }}>
       <Swiper
         modules={[Navigation, Pagination, Autoplay]}
         navigation
@@ -106,4 +105,3 @@ export default function Slider() {
     </div>
   );
 }
-
