@@ -63,6 +63,8 @@ header .container {
   justify-content: space-between;
   align-items: center;
   padding: 12px 40px;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
 header h1 {
@@ -73,21 +75,22 @@ header h1 {
 header nav {
   display: flex;
   align-items: center;
-  gap: 25px;
+  gap: 16px;           /* slightly smaller gap to avoid overflow */
+  flex-wrap: wrap;     /* allow wrapping on narrow widths */
 }
 
 header nav a {
   text-decoration: none;
   color: #333;
-  font-size: 12px;
+  font-size: 14px;
   transition: color 0.3s ease;
   text-align: center;
+  white-space: nowrap; /* keep each nav label on a single line */
 }
 
 header nav a:hover {
   color: #0a5be0; /* light blue on hover */
 }
-
 
 header nav .buy-btn {
   background: #0a5be0;
@@ -103,6 +106,121 @@ header nav .buy-btn:hover {
   background: #0a5be0;
 }
 
+/* Mobile Header */
+@media (max-width: 768px) {
+  header .container {
+    padding: 12px 20px;
+  }
+
+  header h1 {
+    font-size: 20px;
+  }
+
+  header nav {
+    display: none; /* Hide nav, show hamburger */
+  }
+
+/* Hamburger Menu */
+  .hamburger {
+    display: block;
+    cursor: pointer;
+    font-size: 24px;
+    color: #333;
+  }
+
+  .nav-menu {
+    position: fixed;        /* make the mobile menu overlay */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;         /* full viewport height */
+    background: #fff;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.12);
+    display: flex;
+    transform: translateX(-100%); /* hide off-canvas by default */
+    transition: transform 0.28s ease-in-out;
+    flex-direction: column;
+    padding: 40px 20px;
+    gap: 18px;
+  }
+
+  .nav-menu.active {
+    transform: translateX(0); /* slide in */
+  }
+
+  .nav-menu a {
+    font-size: 16px;
+    padding: 10px 0;
+    border-bottom: 1px solid #eee;
+  }
+
+  .nav-menu .buy-btn {
+    align-self: center;
+    margin-top: 10px;
+  }
+
+
+/* Ensure header buy button styling overrides the generic .buy-btn used elsewhere */
+.header-container .buy-btn,
+header .container .buy-btn {
+  background: #0a5be0;   /* blue pill for header */
+  color: #fff;
+  padding: 8px 14px;
+  font-size: 14px;
+  border-radius: 16px;
+  border: none;
+  display: inline-block;
+}
+.header-container .buy-btn:hover,
+header .container .buy-btn:hover {
+  background: #0749b3;
+}
+
+/* When nav-menu is active, keep focus on it and prevent accidental page scroll */
+.nav-menu.active {
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Ensure mobile-only hamburger is hidden by default on desktop (reinforce) */
+.hamburger {
+  display: none;
+}
+  /* Mobile Dropdown Styles */
+  .nav-menu .dropdown-content {
+    display: none;
+    flex-direction: column;
+    padding: 10px 20px;
+    background: #f9f9f9;
+    border-radius: 8px;
+    margin-top: 5px;
+  }
+
+  .nav-menu .dropdown-content.active {
+    display: flex;
+  }
+
+  .nav-menu .dropdown-content a {
+    padding: 8px 0;
+    font-size: 14px;
+    color: #333;
+    text-decoration: none;
+  }
+
+  .nav-menu .dropdown-content a:hover {
+    color: #0a5be0;
+  }
+}
+
+/* Ensure mobile-only elements are hidden on desktop by default */
+.hamburger {
+  display: none; /* visible only in mobile media query */
+}
+
+.nav-menu {
+  display: none; /* mobile menu should be hidden on desktop by default */
+}
+
 /* Footer */
 footer {
   background: #0a1d4d;
@@ -116,6 +234,8 @@ footer .footer-top {
   justify-content: space-between;
   flex-wrap: wrap;
   gap: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
 footer .footer-top h2 {
@@ -143,7 +263,7 @@ footer .footer-links a:hover {
 footer .social-icons {
   display: flex;
   gap: 15px;
-  align-items:auto;
+  align-items: auto;
 }
 
 footer .social-icons a {
@@ -164,10 +284,39 @@ footer .copyright {
   padding-top: 15px;
 }
 
+/* Mobile Footer */
+@media (max-width: 768px) {
+  footer {
+    padding: 20px;
+  }
+
+  footer .footer-top {
+    flex-direction: column;
+    text-align: center;
+    gap: 30px;
+  }
+
+  footer .footer-links {
+    justify-content: center;
+    gap: 15px;
+  }
+
+  footer .social-icons {
+    justify-content: center;
+  }
+}
+
 /* Page Content */
 main {
   padding: 40px;
   min-height: 60vh;
+}
+
+/* Mobile Page Content */
+@media (max-width: 768px) {
+  main {
+    padding: 20px;
+  }
 }
 
 /* Swiper general styles */
@@ -189,6 +338,24 @@ main {
   border-radius: 0;  /* no rounded corners */
 }
 
+/* Ensure Swiper structure fills the slider container so images don't leave large gaps */
+.mySwiper, .mySwiper .swiper-wrapper, .mySwiper .swiper-slide {
+  height: 100%;
+}
+
+.mySwiper .swiper-slide {
+  display: flex;
+  align-items: center;    /* vertically center slide content */
+  justify-content: center; /* horizontally center slide content */
+}
+
+.mySwiper img {
+  display: block;         /* remove inline gap */
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
 /* Navigation arrows */
 .swiper-button-next,
 .swiper-button-prev {
@@ -207,6 +374,7 @@ main {
 /* Make slider responsive */
 @media (max-width: 768px) {
   .mySwiper {
+    height: 50vh;
   }
 }
 
@@ -256,10 +424,19 @@ main {
 /* Responsive */
 @media (max-width: 768px) {
   .slide-text h1 {
-    font-size: 2rem;
+    font-size: 1.5rem;
   }
   .slide-text h3 {
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .slide-text h1 {
     font-size: 1.2rem;
+  }
+  .slide-text h3 {
+    font-size: 0.9rem;
   }
 }
 /* --- Nutrition Section --- */
@@ -345,8 +522,16 @@ main {
 
 /* --- Responsive --- */
 @media (max-width: 768px) {
+  .nutrition-section {
+    padding: 2rem 1rem;
+  }
+
   .nutrition-heading {
-    font-size: 2rem;
+    font-size: 1.8rem;
+  }
+
+  .nutrition-text {
+    font-size: 1rem;
   }
 
   .nutrition-products img {
@@ -356,6 +541,14 @@ main {
 }
 
 @media (max-width: 480px) {
+  .nutrition-heading {
+    font-size: 1.5rem;
+  }
+
+  .nutrition-text {
+    font-size: 0.9rem;
+  }
+
   .nutrition-products img {
     width: 80px;
     height: 80px;
@@ -379,6 +572,29 @@ main {
   gap: 25px;                             /* space between cards */
   max-width: 800px;                      /* keeps row compact */
   margin: 0 auto;                        /* center align */
+}
+
+/* Mobile Updates */
+@media (max-width: 768px) {
+  .latest-updates {
+    padding: 40px 20px;
+  }
+
+  .updates-title {
+    font-size: 2rem;
+  }
+
+  .updates-container {
+    grid-template-columns: 1fr; /* Single column on mobile */
+    gap: 20px;
+    max-width: 100%;
+  }
+
+  .update-card {
+    width: 100%;
+    max-width: 300px;
+    margin: 0 auto;
+  }
 }
 
 .update-card {
@@ -479,8 +695,36 @@ main {
   display: grid;
   grid-template-columns: repeat(3, 1fr); /* 3 in one row */
   gap: 90px;
-  
+  max-width: 1200px;
   margin: 0 auto;
+}
+
+/* Mobile Ethos */
+@media (max-width: 768px) {
+  .ethos-section {
+    padding: 40px 20px;
+  }
+
+  .ethos-heading {
+    font-size: 1.8rem;
+  }
+
+  .ethos-container {
+    grid-template-columns: 1fr; /* Single column */
+    gap: 40px;
+  }
+
+  .ethos-card {
+    padding: 20px;
+  }
+
+  .ethos-title {
+    font-size: 1rem;
+  }
+
+  .ethos-desc {
+    font-size: 0.9rem;
+  }
 }
 
 .ethos-card {
@@ -526,10 +770,10 @@ main {
   padding: 0;
   margin: 0;
   text-align: center;
-    background-size: cover;
+  background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
-   overflow: hidden;
+  overflow: hidden;
 }
 .hero-section::after {
   background: rgba(0, 0, 0, 0.2); /* lighter overlay */
@@ -550,6 +794,30 @@ main {
   border: none;
   cursor: pointer;
   border-radius: 5px;
+}
+
+/* Mobile Hero */
+@media (max-width: 768px) {
+  .hero-section {
+    height: 70vh;
+  }
+
+  .hero-content {
+    padding: 15px 20px;
+  }
+
+  .hero-content h1 {
+    font-size: 1.8rem;
+  }
+
+  .hero-content p {
+    font-size: 1rem;
+  }
+
+  .hero-btn {
+    font-size: 14px;
+    padding: 8px 16px;
+  }
 }
 .instagram-section {
   text-align: center;
@@ -575,6 +843,23 @@ main {
   border-radius: 12px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   max-width: 100%;
+  width: 100%;
+  height: 480px;
+}
+
+/* Mobile Instagram */
+@media (max-width: 768px) {
+  .instagram-section {
+    padding: 20px;
+  }
+
+  .instagram-section h2 {
+    font-size: 1.5rem;
+  }
+
+  .insta-embed iframe {
+    height: 300px;
+  }
 }
 /* productsection*/
 
@@ -607,6 +892,41 @@ main {
     gap: 1.5rem;
     max-width: 1200px;
     margin: 0 auto;
+  }
+}
+
+@media (max-width: 767px) {
+  .category-section {
+    padding: 2rem 1rem;
+  }
+
+  .category-title {
+    font-size: 1.8rem;
+  }
+
+  .category-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
+
+  .category-card {
+    width: 100%;
+    height: auto;
+    padding: 1rem;
+  }
+
+  .category-card h3 {
+    font-size: 0.9rem;
+  }
+
+  .category-card p {
+    font-size: 0.8rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .category-grid {
+    grid-template-columns: 1fr;
   }
 }
 
@@ -759,6 +1079,36 @@ main {
   margin: 0 auto;
 }
 
+/* Mobile Brochure */
+@media (max-width: 768px) {
+  .brochure-section {
+    padding: 2rem 1rem;
+  }
+
+  .brochure-section h2 {
+    font-size: 1.8rem;
+  }
+
+  .brochure-section p {
+    font-size: 0.9rem;
+  }
+
+  .brochure-grid {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .brochure-card {
+    flex: none;
+    max-width: 100%;
+  }
+
+  .brochure-btn {
+    font-size: 0.5rem;
+    padding: 8px 20px;
+  }
+}
+
 /* Each card = 3 in a row */
 .brochure-card {
   flex: 1 1 30%;
@@ -825,9 +1175,43 @@ main {
   gap: 10px;                    /* no space between boxes */
 }
 
+/* Mobile Blog Grid */
+@media (max-width: 768px) {
+  .nutrition-section {
+    padding: 2rem 1rem;
+  }
+
+  .section-title {
+    font-size: 1.8rem;
+  }
+
+  .blog-grid {
+    gap: 15px;
+  }
+
+  .blog-card {
+    width: 100%;
+    max-width: 300px;
+    padding: 15px;
+  }
+
+  .blog-image {
+    width: 100%;
+    height: 150px;
+  }
+
+  .blog-title {
+    font-size: 0.7rem;
+  }
+
+  .blog-desc {
+    font-size: 0.6rem;
+  }
+}
+
 .blog-card {
   width: 200px;              /* fixed smaller width */
-  margin: 0;  
+  margin: 0;
   padding: 10px;               /* remove extra spacing */
 }
 
@@ -1197,6 +1581,9 @@ main {
 .sub-brands-section h2 span {
   color: #004aad;
 }
+
+/* Header styling */
+
 /* Slider container */
 .slider-container {
   width: 100%;
@@ -1207,12 +1594,57 @@ main {
 .mySwiper {
   width: 100%;
   height: 100%;
+  position: relative; /* ensure absolute children (nav) are positioned relative to this */
 }
 
 .mySwiper img {
   width: 100%;
   height: 100%;
   object-fit: cover; /* cover container without distortion */
+}
+
+/* Swiper navigation arrows: overlay and vertically centered */
+.swiper-button-next,
+.swiper-button-prev {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 20;
+  background: rgba(255,255,255,0.85);
+  color: #0a5be0;
+  border-radius: 50%;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+}
+
+.swiper-button-prev {
+  left: 12px;
+}
+
+.swiper-button-next {
+  right: 12px;
+}
+
+/* Make arrows slightly smaller on small screens */
+@media (max-width: 480px) {
+  .swiper-button-next,
+  .swiper-button-prev {
+    width: 40px;
+    height: 40px;
+    font-size: 20px;
+    left: 8px;
+    right: 8px;
+  }
+}
+
+/* Pagination dots stay above arrows */
+.swiper-pagination {
+  z-index: 25;
+  bottom: 14px !important;
 }
 
 /* Additional styling for scrollable logo slider if used */
@@ -1252,6 +1684,7 @@ main {
 .slider:hover .slide-track {
   animation-play-state: paused;
 }
+
 .investors-page {
   font-family: Arial, sans-serif;
   color: #333;
@@ -1418,6 +1851,35 @@ main {
   margin: 2rem auto;
   text-align: center;
   font-family: 'Times New Roman', Times, serif;
+  padding: 0 1rem;
+}
+
+/* Mobile Checkout */
+@media (max-width: 768px) {
+  .checkout-page {
+    margin: 1rem auto;
+  }
+
+  .checkout-page h2 {
+    font-size: 1.5rem;
+  }
+
+  .checkout-pageee {
+    font-size: 0.9rem;
+  }
+
+  .payment-options {
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .payment-options button {
+    width: 100%;
+    max-width: 300px;
+    font-size: 1rem;
+    padding: 1rem;
+  }
 }
 
 /* Common layout for multiple items */
@@ -1479,6 +1941,41 @@ main {
   gap: 2rem;
 }
 
+/* Mobile Chocolate */
+@media (max-width: 768px) {
+  .chocolate-section {
+    flex-direction: column;
+    padding: 1rem;
+    gap: 1rem;
+  }
+
+  .content {
+    text-align: center;
+  }
+
+  .content h1 {
+    font-size: 1.8rem;
+  }
+
+  .content p {
+    font-size: 0.9rem;
+  }
+
+  .sizes {
+    justify-content: center;
+  }
+
+  .images {
+    justify-content: center;
+    margin-left: 0;
+  }
+
+  .images img {
+    max-height: 200px;
+    margin-left: -15px;
+  }
+}
+
 .content {
   flex: 1;
 }
@@ -1533,7 +2030,7 @@ main {
   justify-content: flex-end;
   position: relative;
   gap: 0;
-    margin-left: -30px; /* Overlapping images */
+  margin-left: -30px; /* Overlapping images */
 }
 
 .images img {
@@ -1548,4 +2045,14 @@ main {
 .images img:hover {
   transform: scale(1.05);
   z-index: 2;
+}
+.mySwiper img {
+  max-height: 80vh;      /* or adjust to match header size */
+  width: 100%;
+  object-fit: cover;    /* maintain aspect ratio without distortion */
+}
+
+header {
+  height: auto;         /* keep it flexible */
+  min-height: 80px;    /* ensures header doesn't shrink too much */
 }
